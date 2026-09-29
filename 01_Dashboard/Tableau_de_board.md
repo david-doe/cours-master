@@ -6,6 +6,6 @@ TABLE
     statut AS "Statut",
     type_evaluation AS "Évaluation",
     date_examen AS "Date examen"
-FROM #cours
+FROM #cours AND !"07_Template"
 SORT date_examen ASC
 ```
