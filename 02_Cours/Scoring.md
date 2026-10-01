@@ -384,15 +384,15 @@ La démonstration mathématique théorique démontrant si $P = NP$ révolutionne
 
 ### 2. Tableau de synthèse des cibles attendues
 
-|**Métrique PDF**|**Formule clé PDF+ 2**|**Cible visée PDF+ 1**|**Interprétation PDF+ 3**|
-|---|---|---|---|
-|**AUC**|$\sum \text{Aires des trapèzes ROC}$|**$\ge 0,8$ (viser $0,9$)**|Qualité de discrimination globale|
-|**$F_1$-Score**|$2 \cdot \frac{\text{Précision} \cdot \text{Rappel}}{\text{Précision} + \text{Rappel}}$|**$0,8$**|Équilibre entre précision et rappel|
-|**gAUC**|$\sum W_k \cdot AUC_k$|**$0,85$**|Équilibre inter-classes pondéré|
-|**Accuracy**|$\frac{VP + VN}{\text{Total}}$|**$0,9$**|Exactitude globale des classifications|
-|**Gini**|$2 \cdot AUC - 1$|Proche de **$1$**|Différenciation par rapport au hasard|
-|**MCC**|Matrice de confusion globale|Proche de **$1$**|Corrélation prédiction / réalité|
-|**Test de Wald**|Statistique de rapport de variance|**$p\text{-value} < 0,05$**|Significativité des coefficients estimés|
+| **Métrique**     | **Formule clé**                                                                         | **Cible visée**             | **Interprétation **                      |
+| ---------------- | --------------------------------------------------------------------------------------- | --------------------------- | ---------------------------------------- |
+| **AUC**          | $\sum \text{Aires des trapèzes ROC}$                                                    | **$\ge 0,8$ (viser $0,9$)** | Qualité de discrimination globale        |
+| **$F_1$-Score**  | $2 \cdot \frac{\text{Précision} \cdot \text{Rappel}}{\text{Précision} + \text{Rappel}}$ | **$0,8$**                   | Équilibre entre précision et rappel      |
+| **gAUC**         | $\sum W_k \cdot AUC_k$                                                                  | **$0,85$**                  | Équilibre inter-classes pondéré          |
+| **Accuracy**     | $\frac{VP + VN}{\text{Total}}$                                                          | **$0,9$**                   | Exactitude globale des classifications   |
+| **Gini**         | $2 \cdot AUC - 1$                                                                       | Proche de **$1$**           | Différenciation par rapport au hasard    |
+| **MCC**          | Matrice de confusion globale                                                            | Proche de **$1$**           | Corrélation prédiction / réalité         |
+| **Test de Wald** | Statistique de rapport de variance                                                      | **$p\text{-value} < 0,05$** | Significativité des coefficients estimés |
 
 ### 3. Travaux Dirigés : Calcul manuel pas à pas de la courbe ROC et de l'AUC
 
@@ -437,15 +437,15 @@ On cumule les événements prédits positifs au fur et à mesure que le seuil de
 
   
 
-|**Palier (Seuil) PDF**|**Observations concernées PDF+ 1**|**Cumul TE (VP) PDF**|**Cumul FE (FP) PDF**|
-|---|---|---|---|
-|**Origine**|-|0|0|
-|**0,9**|Obs 1|1|0|
-|**0,8**|Obs 2|1|1|
-|**0,7**|Obs 3 et 4|2|2|
-|**0,4**|Obs 5 et 6|3|3|
-|**0,3**|Obs 7 et 8|4|4|
-|**0,2**|Obs 9|4|5|
+| **Palier (Seuil) ** | **Observations concernées ** | **Cumul TE (VP) PDF** | **Cumul FE (FP) PDF** |
+| ------------------- | ---------------------------- | --------------------- | --------------------- |
+| **Origine**         | -                            | 0                     | 0                     |
+| **0,9**             | Obs 1                        | 1                     | 0                     |
+| **0,8**             | Obs 2                        | 1                     | 1                     |
+| **0,7**             | Obs 3 et 4                   | 2                     | 2                     |
+| **0,4**             | Obs 5 et 6                   | 3                     | 3                     |
+| **0,3**             | Obs 7 et 8                   | 4                     | 4                     |
+| **0,2**             | Obs 9                        | 4                     | 5                     |
 
 #### Étape 3 : Calcul des taux d'erreur et coordonnées ROC
 
