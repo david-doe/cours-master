@@ -1,10 +1,10 @@
 ---
-cours: "Test_Bases_Donnees"
-code_ue: 
+cours:
+code_ue:
 semestre: S1
-statut: "À réviser"
+statut: À réviser
 date_examen: 2026-12-15
-type_evaluation: "Examen terminal"
+type_evaluation: Examen terminal
 tags:
   - cours
 ---
