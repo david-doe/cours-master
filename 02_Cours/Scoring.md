@@ -7,6 +7,7 @@ date_examobsidian://open?vault=cours-master&file=02_Cours%2FScoringen: 2026-12-1
 type_evaluation: Examen terminal et Projet
 tags:
   - cours
+  - scoring
 ---
 
 # Scoring
@@ -583,4 +584,239 @@ $$AUC = \sum_{i=1}^{6} \text{Aire}_i = 0 + 0,05 + 0,075 + 0,125 + 0,175 + 0,2 = 
   
 
 - **Diagnostic :** avec une valeur de $0,625$, le modèle se situe nettement en dessous du seuil minimal acceptable en industrie ($0,8$) et de la cible idéale ($0,9$) ; il nécessite un réentraînement ou une révision de ses variables explicatives.
+
+## BON A CONNAITRE 
+
+
+## Comment choisir un modèle ?
+* Quantité de données => Lignes et colonnes
+* Complexité des variables => relations et types
+* Connaissance des modèles => fonctionnement et mesure
+
+## Bien débuter en scoring prérequis
+* Combien de modèles dois-je connaître ?
+  * Au minimum 2 donc un polynomial et un non polynomial.
+* Dois-je maîtriser toutes les notions mathématiques d’un modèle ?
+  * Non, la compréhension du fonctionnement est plus importante que la capacité à démontrer toutes les règles d’un modèle.
+* Quel est le meilleur langage de code ?
+  * Python 3, pour son optimisation, ses librairies et sa communauté.
+* Quelles sont les compétences incontournables ?
+  * Les fondamentaux statistique et compétence technique (langage code)
+* Quelle est la meilleure approche, mathématiques ou technique ?
+  * Les deux approches sont nécessaires et se complètent. Chacun commence là où il se sent confiant tant qu’il réalise le travail avec méthode.
+* La pratique est-elle meilleure que la théorie ?
+  * Elles ne sont pas opposées. C’est un biais cognitif qu’il faut corriger. La pratique et la théorie dépendent l’une de l’autre et apportent mutuellement l’ensemble des éléments requis.
+* Comment savoir que l’on progresse ?
+  * Vous avez significativement progressé lorsque vous commencez à savoir expliquer et justifier les méthodes pour traiter le développement d’un score.
+* Les résultats des modèles sont-ils aussi un indicateur de ma progression ?
+  * Pour un débutant, non car ils ne dépendent pas que du travail de l’ingénieur. Ce n’est donc pas un indicateur fiable. Les méthodes de développement sont un terrain plus sûr pour mesurer la progression.
+
+## Opérations et agrégats
+Les classifiers sont des modèles de classification. Une variable qualitative polynomiale comprend plus de 2 modalités.
+
+Regressor a pour variable cible une variable quantitative.
+
+La capacité d’un modèle de prédire 1 quand c’est 1 et 0 quand c’est 0. C’est la balance entre les erreurs et les bonnes prévisions.
+
+Scédasticité : le comportement de l’erreur. Homoscédastique veut dire que l’erreur est constante, il est régulier. L’hétéroscédasticité veut dire que le comportement de l’erreur est aléatoire.
+
+* AUC (différentiation des observations) -> régression logistique
+* F1 score (équilibre du modèle) : Pour un classifier, il faut stabiliser le comportement de l’erreur.
+* gAUC (différenciation par classe) c’est AUC pondérées par. On va pondérer les AUC par la moyenne de chaque classe. Permet d’identifier si une classe génère un équilibre. On manque de précision pour prédire les membres de cette classe.
+* Accuracy : taux de bonne prédiction d’un modèle. (vrai positif et faux positif, etc)
+
+### AUC
+2 méthodes usuelles pour calculer :
+1. Méthode des trapèzes
+2. Méthode par les paires de Mann-Whitney
+
+**Méthode des trapèzes :**
+1. Choisir le seuil de réalisation de l’évènement
+   a. Usuellement et par défaut 0,5
+   b. Peut être ajuster pour influencer l’équilibre du modèle
+2. Ordonner les estimations par ordre décroissant
+3. Compter les True estimations et les False estimations
+4. Calculer les taux à chaque palier estimé
+5. Lister les coordonnées et tracer la courbe ROC
+6. Calculer l’aire entre deux coordonnées
+7. Calculer l’aire totale => AUC
+
+### Précision et rappel :
+F1 Score : Calculer l'équilibre du modèle. Il estime qu'il y a un déséquilibre dans les faux positif et négatif.
+
+Précision = TP / TP + FP  
+Rappel = TP / TP + FN  
+F1 score = 2 . (précision . rappel) / (précision + rappel)
+
+### gAUC
+On divise en deux classes selon les probabilités et le seuil de classification.
+
+W1 = Nb classe 1 / Nb total  
+W2 = Nb classe 2 / Nb total  
+gAUC = (W1 * AUG1) + (W2 * AUG2)
+
+Lorsque gAUC > AUC la classe qui est la bien différencié dans le modèle a plus de présence dans l’échantillon que la classe qui est la moins bien différencié dans le modèle.
+
+Si gAUC < AUC : le modèle a du mal à prédire une catégorie (classe) de l’échantillon contre à un autre. Ca veut dire que pour catégorie A le modèle arrive à bien discriminer les 0 et 1 mais pour catégorie B il le fait moins bien.
+
+**Exemple : avec AUC = 0,69**  
+Classe 1 : AUC1 = 0,6 et W1 = 0,25  
+Classe 2 : AUC2 = 0,25 et W2 = 0,25  
+Classe 3 : AUC3 = 0,85 et W3 = 0,5  
+Donc gAUG = 0,73  
+
+gAUC > AUC => La classe 3 est mieux différencier dans l’échantillon par rapport aux autres classes car le W3 est le plus important.
+
+### Accuracy
+Calculer la matrice de confusion  
+Accuracy = TP + TN / TP + TN + FP + FN
+
+### Qualité du modèle
+Exemple :
+* AUC = 0,625 -> on vise 0,9
+* F1 Score = 0,5 -> on vise 0,8
+* gAUC = 0,64 -> on vise 0,85
+* Accuracy = 0,55 -> on vise 0,9
+
+Globalement, le modèle est mauvais, quelles peuvent être les raisons :
+* Quantité de données
+* Qualité des données
+* Modèle inadapté
+* Mauvaise spécification du modèle
+* Mauvais pipeline d’entraînement
+
+### Coefficient de Gini
+CGini = 2 AUC – 1  
+Le CGini n’apporte pas une information supplémentaire, il redéfinit le domaine de l’AUC de 0 à 1 vers -1 à 1.
+
+### MCC
+Matthews corrélation coefficient : corrèle l’attribution de l'estimation à la valeur réelle  
+MCC = (TP * TN – FP . FN)/ sqrt((TP + FP)(TP + FN)(TN + FP)(TN + FN))
+
+* MCC = 1 : Attribution parfaite
+* MCC = 0 : Attribution Aléatoire
+* MCC = -1 : Attribution imparfaite
+
+| TP | FP | FN | TN |
+| :--- | :--- | :--- | :--- |
+| 85 | 10 | 15 | 90 |
+| 20 | 5 | 80 | 96 |
+| 90 | 60 | 10 | 40 |
+| 0 | 0 | 40 | 160 |
+
+Donc pour ces matrices :
+
+| Matrice | F1 | Accuracy |
+| :--- | :--- | :--- |
+| 1 | 0,8718 | 0,875 |
+| 2 | 0,32 | 0,5 |
+| 3 | 0,72 | 0,65 |
+| 4 | 0 | 0,8 |
+
+## Création de métrique
+On distingue deux types de métriques :
+* Les métriques simples :
+  * Concepts simples
+  * Niveau mathématique standard
+  * Repose généralement sur un compteur
+* Les métriques complexes :
+  * Concepts complexes
+  * Niveau mathématique intermédiaire ou élevé
+  * Repose généralement sur des opérations et des fonctions d’ajustement
+
+La création de métrique répond toujours à un besoin et elle constitue une règle de décision sur la performance du modèle.
+
+**3 étapes :**
+* 1ère étape : identifier le besoin :
+  * Quelles performances du modèle ma métrique va mesurer ?
+* 2ème étape : Sélection des outils :
+  * J’opte pour certaines transformations de données, je choisis le(s) modèle(s) et les indicateurs sur la base des besoins.
+* 3ème étape : Concevoir la métrique :
+  * Sur la base de quel indicateur
+  * Formation de scoring, expérience professionnelle, formation de machine learning.
+
+**Cycle de création d’un modèle :**
+* Identifier les besoins
+* Sélection des outils (features et modèles)
+* Concevoir la métrique (mesurer les perfs.)
+* Recherche connaissance (en cas qu’il y a le problème) => puis on répéter Sélection des outils => Concevoir la métrique
+
+**Pour Identifier les besoins et Concevoir la métrique :**
+* 30% du temps de travail
+* Définition et déploiement des solutions
+* Génère un évaluer ajouté
+
+**Pour Sélection des outils et Recherche connaissance :**
+* 70% du temps de travail
+* Préparation des solution
+* N’a pas de valeur directe
+
+### Identification le besoin
+Méthode - Matrice simple :
+
+### Concevoir la métrique : mesurer les perfs
+Méthode – Métrique simple
+
+Le modèle doit être :
+* Significatif => test de wald 0, RFE
+* Distinguer les observations => AUC 0,8, gAUC 0,75
+* Résister aux déséquilibres des groupes => F1 score 0,75, gAUC
+* Prédire correctement => Accuracy 0,85, MCC 0,75
+
+Globalement performant mais il y a une tolérance à son imperfection
+
+**RFE : Recursive Feature Elimination :**
+1. Choisir le modèle
+2. Définir les critères d’importance des variables
+3. Définir la condition d’arrêt
+4. Opérer l’élimination itérative des variables
+5. Observer la variation de indicateurs de qualité du modèle
+
+Désavantage : coût algorithmique élevé, convient davantage aux
+
+### Sélection des outils (features et modèles)
+Régression logistique et Arbre de décision
+
+### Pipeline d’entrainement
+=> 
++ Data extraction (data import, data load, data scrap)  
++ Data validation(data profiling, data type, missing type values, outliers, DQM rules)  
++ Data preparation (split, aggregate, delete, impute, normalize)  
++ Training models (train method, test method, hyperparameter, fitting models)  
++ Models evaluation(QPI, Scores, Metrics)  
+
+En scoring, on focus sur la dernière étape : Models evaluation. Parmi les métriques de mesure mentionnées en haut, on supprime le test de Wald parce qu’il est propre aux modèles polynomiaux, le RFE ne permet pas de créer une métrique de mesure. On se base sur les métriques qui restent.
+
+A la fin du pipeline, si la métrique indique que les perfs sont OK, je fais valider et je déploie en production.
+
+### Concevoir la métrique (mesurer les perfs)
+Models evaluation(QPI, Scores, Metrics)
+* AUC à partir de 0,8
+* gAUC à partir de 0,75
+* Acc à partir de 0,85
+* MCC à partir de 0,75
+* F1 - score à partir de 0,75
+
+Pour chaque métrique, si la valeur est en dessus du seuil, on met 1 sinon 0.  
+Après on fait la somme de Score RegLog et Score DecTree.  
+Quelle est notre règle de décision => score minimum => 4  
+
+Ce qu’on recherche :
+* La performance et non l’idéologie d’un modèle
+* On obéit à la règle de décision
+
+Après on fait valider et on déploie en production le modèle
+
+## Note
+R2 : Le coefficient de détermination mesure la proportion de la variation de la variable expliquée par la variation des variables explicatives du modèle.
+
+**4 métriques de qualité incontournable ?**
+* **AUC** : traduit la capacité du modèle à produire plusieurs valeurs distinct de probabilité lors de l’estimation, ceci se traduisant par sa capacité à différencier les observation. Capacité du modèle produit plusieurs valeurs distinctes de probabilité pour chaque profil de observation.
+* **gAUC** : Mesure la capacité globale du modèle à différencier les observations. Son calcul est pondéré par le poids de représentativité de chaque classe dans l'échantillon. L’attribution de classes étant arbitraire. On peut le choisir arbitrairement ou utiliser des méthodes de segmentation mathématiques pour faire les classes.
+* **Accuracy** : mesure le taux de bonne de prédiction
+* **F1 SCORE** : mesurer l’équilibre du modèle c’est à dire la capacité du modèle a estimé en proportion sensiblement équivalent les taux de vrai positif et vrai négative qinsi que faux positif et faux négative
+
+**Comparaison entre AUC et gAUC :**
+* 1er cas AUG > gAUC : la ou les classe le plus représenté dans l’échantillons sont moins bien différentier par les modèle que les classes la ou les moins représenté
+* 1er cas AUG < gAUC : la ou les classe le plus représenté dans l’échantillon sont mieux différentier par les modèle que les classes la ou les moins représenté
 
