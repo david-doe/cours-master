@@ -3,7 +3,7 @@ cours: Scoring
 code_ue:
 semestre: S1
 statut: À réviser
-date_examen: 2026-12-15
+date_examobsidian://open?vault=cours-master&file=02_Cours%2FScoringen: 2026-12-15
 type_evaluation: Examen terminal et Projet
 tags:
   - cours
